@@ -23,6 +23,17 @@ Repositorio del post-contenido de la Unidad 9 de Patrones de Diseño de Software
 
 En `ReminderChannelFactoryImplTest` aparece un cuarto tipo: el `NotificadorSmsGateway` que recibe `SmsReminderChannel` es un **Dummy**. Solo completa el constructor; esa prueba compara instancias y nunca envía un mensaje.
 
+### Punto de decisión 2 — Diagnóstico de `enviarRecordatorioUrgente` antes del refactor
+La primera versión del método funciona, pero no se puede probar en aislamiento. La línea responsable es:
+
+```java
+ReminderChannel canalUrgente = new SmsReminderChannel(new TwilioNotificadorSmsGateway());
+```
+
+El canal y el gateway nacen dentro del propio método, en cada llamada. La prueba no tiene ningún punto donde entregar otro objeto: el `@Mock` que se declare en la clase de prueba nunca llega a ese `new`. Por eso el escenario que más interesa, "el proveedor de SMS falla y la cita no debe quedar marcada como enviada", no se puede escribir; lo único que se podría hacer es ejecutar el método y mirar la consola.
+
+`enviarRecordatoriosPendientes()` no tiene ese problema porque no construye nada: recibe la Factory por constructor y la Factory entrega el canal. En la prueba ese constructor recibe un mock y se controla todo lo que pasa después. La diferencia entre los dos métodos no está en la lógica, está en quién crea el colaborador.
+
 ## Ejecutar las pruebas
 ```bash
 mvn test
