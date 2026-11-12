@@ -1,7 +1,5 @@
 # Recordatorios Citas Service
 
-![CI](https://github.com/DanielUsopp/Rozo-post1-U9/actions/workflows/ci.yml/badge.svg)
-
 ## Descripción
 Repositorio del post-contenido de la Unidad 9 de Patrones de Diseño de Software. Un único proyecto Spring Boot (`recordatorios-citas-service`) que busca las citas médicas de las próximas 24 horas que todavía no tienen recordatorio y lo envía por el canal que prefiere el paciente (correo o SMS). El canal de envío es una Strategy (`ReminderChannel`), la elección del canal es un Factory Method (`ReminderChannelFactory`) y ambos llegan a `CitaReminderServiceImpl` por constructor, junto con el repositorio y el `Clock`.
 
